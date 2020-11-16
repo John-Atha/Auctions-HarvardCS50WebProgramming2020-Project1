@@ -15,9 +15,17 @@ def welcomepage(request):
         return render(request, "auctions/login.html")
 
 def index(request):
+    listings = Listing.objects.filter(active=True)
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "listings": listings
     })
+
+def inactive(request):
+    listings = Listing.objects.filter(active=False)
+    return render(request, "auctions/inactive.html", {
+        "listings": listings
+    })
+
 
 def cat_display(request, title):
     category = Category.objects.get(name=title)
@@ -74,7 +82,7 @@ def display(request, name):
                 bid2.save()
             else:
                 bid_problem = True
-                bid_message="Your bid wasn't placed, new bids need to be higher than the best"
+                bid_message="Your bid wasn't placed, new bids need to be higher than the best one"
     bids = listing2.its_bids.all().order_by('-datetime') 
     comments = listing2.its_comments.all().order_by('-datetime')
     adding = False
@@ -129,6 +137,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
+            y=0
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/login.html", {
@@ -177,6 +186,7 @@ def register(request):
                 "message": "Username already taken."
             })
         login(request, user)
+        y=0
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")

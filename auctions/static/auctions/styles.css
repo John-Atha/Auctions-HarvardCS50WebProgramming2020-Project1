@@ -67,6 +67,17 @@ body {
     grid-template-columns: 28% 28% 28% 28%;
 }
 
+.owners-container {
+    display:grid;
+    grid-column-gap: 20%;
+    grid-row-gap:auto;
+    grid-template-columns: 5% auto;
+}
+
+.owners > .div {
+    margin: 5px;
+}
+
 .display-image{
     border-radius: 10px;
     height: 30%;
@@ -80,6 +91,13 @@ body {
     grid-column-gap: 200px;
     grid-row-gap: 40px;
     grid-template-columns: 30% auto;
+}
+
+.info-display {
+    display: grid;
+    grid-column-gap: 200px;
+    grid-row-gap: 2%;
+    grid-template-columns: 80%;
 }
 
 .container-display2 {
@@ -130,9 +148,13 @@ body {
     position: absolute;
     left:35%;
     padding: 0%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-row-gap: 2%;
+    grid-template-columns: 80%;
+    grid-column-gap: 55%;
+    /*flex-wrap: wrap;*/
     width: 30%;
+
     justify-content: center;
     text-align: center;
     height: auto;

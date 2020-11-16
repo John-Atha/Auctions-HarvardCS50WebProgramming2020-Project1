@@ -31,32 +31,42 @@
         src="/static/auctions/{{listing.photo}}" >
     </div>
     
-    <div>
-        <h4>Description</h4>
-        {{ listing.description }}
-        <br>
-        <br>
+    <div class="info-display">
+        <div>
+            <h4>Description</h4>
+            {{ listing.description }}
+        </div>
         {% if bids %}
-            <h4>Best Bid so far</h4>
-            {{ listing.price }} $
+            <div>
+                <h4>Best Bid so far</h4>
+                {{ listing.price }} $
+            </div>
         {% else %}
-            <h4>Minimum price owner has set</h4>
-            {{ listing.price }} $
+            <div>
+                <h4>Minimum price owner has set</h4>
+                {{ listing.price }} $
+            </div>
         {% endif %}
-        <br>
-        <br>
-        <h4>Owner</h4>
-        {{listing.owner}}
-        <h4>Best bidder</h4>
-        {{listing.best_bidder}}
-        <br>
-        <br>
-        {% if listing.active %}
+        <div class="owners-container">
+            <div>
+                <h4>Owner</h4>
+                {{listing.owner}}
+            </div>
+            <div>
+                <h4>Best bidder</h4>
+                {{listing.best_bidder}}
+            </div>
+        </div>
+        <div>
+        {% if listing.active  and  listing.owner != request.user %}
             <h4 style="color:green;">The listing is active, go for it!</h4>
+        {% elif listing.active  and  listing.owner == request.user %}
+            <h4 style="color:green;">The listing is active</h4>
         {% else %}
             <h4>The listing was closed from the previous owner, new owner of the product is:</h4>
-            {{ listing.owner }}
+            {{ listing.best_bidder }}
         {% endif %}
+        </div>
     </div>
 </div>
 
@@ -83,19 +93,23 @@
 
     {% if user.is_authenticated %}
     <div class="comments-box" style="padding:1%">
-        {% if bid_message %}
-            <a style="color:red; font-size:large"> {{ bid_message }}</a>
-        {% endif %}
-        {% if request.user != listing.owner %}
-            <form action=" {% url 'display' listing.title %}" method="post">
-                {% csrf_token %}
-                <label for="comm_input">Place a new Bid:</label>
-                <br>
-                <input type="text" class="com_form" id="comm_input" name="bid" placeholder="Bid in ($)...">
-                <input type="submit" class="buttons" value="Submit"> 
-            </form>
+        {% if listing.active %}
+            {% if bid_message %}
+                <a style="color:red; font-size:large"> {{ bid_message }}</a>
+            {% endif %}
+            {% if request.user != listing.owner %}
+                <form action=" {% url 'display' listing.title %}" method="post">
+                    {% csrf_token %}
+                    <label for="comm_input">Place a new Bid:</label>
+                    <br>
+                    <input type="text" class="com_form" id="comm_input" name="bid" placeholder="Bid in ($)...">
+                    <input type="submit" class="buttons" value="Submit"> 
+                </form>
+            {% else %}
+                <a style="color: red; font-size:large"> Of course you can't place a bid for one of your own listings</a>
+            {% endif %}
         {% else %}
-            <a style="color: red; font-size:large"> Of course you can't place a bid for one of your own listings</a>
+            <a style="color: red; font-size:large"> You can't place a bid for a closed listing</a>
         {% endif %}
     </div>
     {% else %}

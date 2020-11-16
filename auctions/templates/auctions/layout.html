@@ -30,6 +30,9 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="{% url 'index' %}">Active Listings<span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'inactive' %}">Inactive Listings<span class="sr-only">(current)</span></a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'add' %}" tabindex="-1">Create new Listing</a>
