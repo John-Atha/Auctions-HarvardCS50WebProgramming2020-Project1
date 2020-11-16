@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+<h2 class="title2">Active Listings</h2>
+
+<div class="container">
+{% for listing in listings %}
+    <div class="card">
+        <img src="/static/auctions/{{listing.photo}}" class="card-img-top product_img">
+        <div class="card-body">
+        <h5 class="card-title">{{ listing.title }}</h5>
+        <p class="card-text">Best Bid: {{ listing.price }} $</p>
+        <p class="card-text">{{ listing.description }}</p>
+        <a href="{% url 'display' listing.title %}" class="btn btn-primary" style="background-color:#99CD4E; 
+        color:#F6F6E8; border:none">I want to learn more</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+    
+
+{% endblock %}
+

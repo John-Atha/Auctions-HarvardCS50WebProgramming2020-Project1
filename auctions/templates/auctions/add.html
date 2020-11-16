@@ -1,0 +1,46 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+
+    <h2 class="title2">Create your new listing !!</h2>
+
+{% if message %}
+<div>
+    {{ message }}
+</div>
+{% endif %}
+<br>
+
+<form class="myform nice_border" action="{% url 'add' %}" method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <input class="form-control" autofocus type="text" name="title" placeholder="Listing's title">
+    </div>
+
+    <div class="form-group">
+        <textarea class="form-control" autofocus type="textarea" name="description" placeholder="Description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" autofocus type="text" name="price" placeholder="Listing's initial Bid">
+    </div>
+
+    <label for="cat">Choose a category:</label>
+    <select id="cat" name="category">
+        {% for category in categories %}
+            <option value="{{category.id}}">{{category.id}},{{category.name}}</option>
+        {% endfor %}
+    </select>
+
+    <div class="form-group">
+        <input class="form-control" type="file" name="photo" placeholder="Listing's photo">
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Add">
+</form>
+
+{% endblock %}
+

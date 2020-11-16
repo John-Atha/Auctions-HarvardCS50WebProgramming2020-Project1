@@ -1,0 +1,31 @@
+{% extends "auctions/log_layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <div style="margin-top:10%; padding:1%">
+        <h2>Login</h2>
+        <br>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form>
+        <br>
+        <a style="font-size: large;">Don't have an account?</a> <br><a style="font-size: large;" href="{% url 'register' %}">Register here.</a>
+        <br><br>
+        <a style="font-size: large;">Just a quick look?</a> <br><a style="font-size: large;" href="{% url 'index' %}">Continue without an account.</a>
+    </div>
+
+
+{% endblock %}

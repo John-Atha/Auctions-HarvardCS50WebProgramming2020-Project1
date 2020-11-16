@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2 class="title2">Categories</h2>
+   
+        <div class="container">
+        {% for category in categories %}
+            <div class="card">
+                <img src="/static/auctions/{{category.photo}}" class="card-img-top product_img" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">{{ category.name }}</h5>
+                <a href="{% url 'cat_display' category.name %}" class="btn btn-primary" style="background-color:#99CD4E; color:#F6F6E8; border:none">
+                I am looking for one of these!</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        
+
+{% endblock %}

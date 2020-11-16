@@ -1,0 +1,17 @@
+{% extends "auctions/log_layout.html" %}
+{% load static %}
+
+
+{% block body %}
+
+            <div>
+                <h2>You are signed in as <a style="font-weight:bolder;">{{ user.username }}</a></h2>
+                <br>
+                
+                <a style="color:#F6F6E8; font-size: x-large;" href="{% url 'index' %}">Continue as {{ user.username }}</a>
+                <br>
+                <br>
+                <a style="color:#F6F6E8; font-size: x-large;" href="{% url 'logout' %}">Log out of this account</a>
+            </div>
+
+{% endblock %}

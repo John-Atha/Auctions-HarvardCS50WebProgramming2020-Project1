@@ -1,0 +1,130 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+
+{% if moving and adding %}
+<div class="con-title-v1">
+    <div><h2 class="title2"> {{listing.title}} </h2></div>
+    <div><a class="title2 message1" style="font-size: 130%;" href="{% url 'watch' listing.title %}">Add it to watchlist</a></div>
+</div>
+{% elif moving and not adding %}
+<div class="con-title-v2">
+    <div><h2 class="title2"> {{listing.title}} </h2></div>
+    <div><a class="title2 message2" style="font-size: 130%;" href="{% url 'unwatch' listing.title %}">Remove it from watchlist</a></div>
+</div>
+{% endif %}
+
+<div class="mycolors container-display">
+
+    <div>
+    <img style="border-radius: 10px; height: 300px; width: auto; border: 2px solid green;"
+        src="/static/auctions/{{listing.photo}}" >
+    </div>
+    
+    <div>
+        <h4>Description</h4>
+        {{ listing.description }}
+        <br>
+        <br>
+        {% if bids %}
+            <h4>Best Bid so far</h4>
+            {{ listing.price }} $
+        {% else %}
+            <h4>Minimum price owner has set</h4>
+            {{ listing.price }} $
+        {% endif %}
+        <br>
+        <br>
+        <h4>Owner</h4>
+        {{listing.owner}}
+    </div>
+</div>
+
+<!----------------------------------------------------------------------->    
+
+<div class="mycolors container-display2">
+    <div>
+        <h4>Bids</h4>
+
+        {% for bid in bids %}
+        <div class="comments-box">
+            <a style="font-size: larger; color: black;">{{ bid.user }}</a>
+            <br>
+            <a style="color: white; font-size: medium;">{{ bid.value }}</a>
+            <br>
+            <a style="font-size: small; color:#FFBA37">{{ bid.datetime }}</a>
+        </div>
+        {% empty %}
+            No bids have been placed yet.
+        {% endfor %}
+
+
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="comments-box" style="padding:1%">
+        {% if bid_message %}
+            <a style="color:red; font-size=large"> {{ bid_message }}</a>
+        {% endif %}
+        <form action=" {% url 'display' listing.title %}" method="post">
+            {% csrf_token %}
+            <label for="comm_input">Place a new Bid:</label>
+            <br>
+            <input type="text" class="com_form" id="comm_input" name="bid" placeholder="Bid in ($)...">
+            <input type="submit" class="buttons" value="Submit"> 
+        </form>
+    </div>
+    {% else %}
+    <div style="color:red; font-size: large;">
+        You can't make a new bid without an account.
+    </div>
+    {% endif %}
+
+</div>
+
+
+<!----------------------------------------------------------------------->
+
+
+<div class="mycolors container-display2">
+    <div>
+        <h4>Comments</h4>
+
+        {% for comm in comments %}
+        <div class="comments-box">
+            <a style="font-size: larger; color: black;">{{ comm.writer }}</a>
+            <br>
+            <a style="color: white; font-size: medium;">{{ comm.comment }}</a>
+            <br>
+            <a style="font-size: small; color:#FFBA37">{{ comm.datetime }}</a>
+        </div>
+        {% empty %}
+            No comments have been publiced yet.
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="comments-box" style="padding:1%">
+        <form action=" {% url 'display' listing.title %}" method="post">
+            {% csrf_token %}
+            <label for="comm_input">Type a comment:</label>
+            <br>
+            <input type="text" class="com_form" id="comm_input" name="comm" placeholder="Comment...">
+            <input type="submit" class="buttons" value="Submit"> 
+        </form>
+    </div>
+    {% else %}
+    <div style="color:red; font-size: large;">
+        You can't post new comments without an account.
+    </div>
+    {% endif %}
+
+</div>
+
+
+
+
+
+{% endblock %}
