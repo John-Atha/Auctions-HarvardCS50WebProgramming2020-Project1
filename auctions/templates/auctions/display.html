@@ -70,33 +70,22 @@
     </div>
 </div>
 
-<!----------------------------------------------------------------------->    
+<!--------------------------bids--------------------------------------------->    
 
 <div class="mycolors container-display2">
-    <div>
-        <h4>Bids</h4>
+   
+    <h4>Bids</h4>
 
-        {% for bid in bids %}
-        <div class="comments-box">
-            <a style="font-size: larger; color: black;">{{ bid.user }}</a>
-            <br>
-            <a style="color: white; font-size: medium;">{{ bid.value }}</a>
-            <br>
-            <a style="font-size: small; color:#FFBA37">{{ bid.datetime }}</a>
-        </div>
-        {% empty %}
-            No bids have been placed yet.
-        {% endfor %}
-
-
-    </div>
 
     {% if user.is_authenticated %}
     <div class="comments-box" style="padding:1%">
         {% if listing.active %}
-            {% if bid_message %}
-                <a style="color:red; font-size:large"> {{ bid_message }}</a>
+            {% if bid_message_good %}
+                <a style="color:green; font-weight: bolder; font-size:large"> {{ bid_message_good }}</a>
+            {% elif bid_message_bad %}
+                <a style="color:red; font-weight: bolder; font-size:large"> {{ bid_message_bad }}</a>
             {% endif %}
+
             {% if request.user != listing.owner %}
                 <form action=" {% url 'display' listing.title %}" method="post">
                     {% csrf_token %}
@@ -117,30 +106,44 @@
         You can't make a new bid without an account.
     </div>
     {% endif %}
+   
+   
+   
+   
+    <div>
+        
+
+        {% for bid in bids %}
+        <div class="comments-box">
+            <a style="font-size: larger; color: black;">{{ bid.user }}</a>
+            <br>
+            <a style="color: white; font-size: medium;">{{ bid.value }}</a>
+            <br>
+            <a style="font-size: small; color:#FFBA37">{{ bid.datetime }}</a>
+        </div>
+        {% empty %}
+            No bids have been placed yet.
+        {% endfor %}
+
+
+    </div>
+
+
 
 </div>
 
 
 
-<!----------------------------------------------------------------------->
+<!-------------------comments---------------------------------------------------->
 
 
 <div class="mycolors container-display2">
-    <div>
-        <h4>Comments</h4>
+   
+    <h4>Comments</h4>
 
-        {% for comm in comments %}
-        <div class="comments-box">
-            <a style="font-size: larger; color: black;">{{ comm.writer }}</a>
-            <br>
-            <a style="color: white; font-size: medium;">{{ comm.comment }}</a>
-            <br>
-            <a style="font-size: small; color:#FFBA37">{{ comm.datetime }}</a>
-        </div>
-        {% empty %}
-            No comments have been publiced yet.
-        {% endfor %}
-    </div>
+    {% if comment_message %}
+        <a style="color:green; font-weight: bolder; font-size:large"> {{ comment_message }}</a>
+    {% endif %}
 
     {% if user.is_authenticated %}
     <div class="comments-box" style="padding:1%">
@@ -157,6 +160,24 @@
         You can't post new comments without an account.
     </div>
     {% endif %}
+
+
+    <div>
+        
+
+        {% for comm in comments %}
+        <div class="comments-box">
+            <a style="font-size: larger; color: black;">{{ comm.writer }}</a>
+            <br>
+            <a style="color: white; font-size: medium;">{{ comm.comment }}</a>
+            <br>
+            <a style="font-size: small; color:#FFBA37">{{ comm.datetime }}</a>
+        </div>
+        {% empty %}
+            No comments have been publiced yet.
+        {% endfor %}
+    </div>
+
 
 </div>
 

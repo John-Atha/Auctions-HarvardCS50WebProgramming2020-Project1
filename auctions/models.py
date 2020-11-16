@@ -25,7 +25,7 @@ class Listing(models.Model):
     best_bidder = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="gets")
 
     def __str__(self):
-        return f"{self.title}, {self.item_category}, {self.active}, {self.photo}"
+        return f"{self.title},  Category:{self.item_category},  Active:{self.active}"
 
 
 class Comment(models.Model):

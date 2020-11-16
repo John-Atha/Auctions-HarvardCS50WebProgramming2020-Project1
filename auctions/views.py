@@ -66,12 +66,15 @@ def display(request, name):
     you = request.user
     listing2 = Listing.objects.get(title = name)
     bid_problem = False
+    bid_message=""
+    comment_message=""
     if request.method=="POST":
         datetime2 = datetime.now()
         if 'comm' in request.POST:
             new_comm = request.POST["comm"]
             comment2 = Comment(comment=new_comm, listing=listing2, datetime=datetime2, writer=you)
             comment2.save()
+            comment_message="Your comment was just posted"
         elif 'bid' in request.POST:
             new_bid = int(request.POST["bid"])
             if new_bid >listing2.price:
@@ -80,6 +83,7 @@ def display(request, name):
                 listing2.save()
                 bid2 = Bid(value=new_bid, item=listing2, datetime=datetime2, user=you)
                 bid2.save()
+                bid_message="Thank you, your bid was just placed!"
             else:
                 bid_problem = True
                 bid_message="Your bid wasn't placed, new bids need to be higher than the best one"
@@ -102,7 +106,8 @@ def display(request, name):
             "adding":adding,
             "comments":comments,
             "bids": bids,
-            "bid_message": bid_message
+            "bid_message_bad": bid_message,
+            "comment_message": comment_message
         })
     else:
         return render(request, "auctions/display.html", {
@@ -111,6 +116,8 @@ def display(request, name):
             "adding":adding,
             "comments":comments,
             "bids": bids,
+            "bid_message_good": bid_message,
+            "comment_message": comment_message
         })
 
 def categories(request):
