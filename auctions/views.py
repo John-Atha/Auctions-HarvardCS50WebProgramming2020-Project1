@@ -14,7 +14,6 @@ def welcomepage(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all()
@@ -68,7 +67,9 @@ def display(request, name):
         elif 'bid' in request.POST:
             new_bid = int(request.POST["bid"])
             if new_bid >listing2.price:
+                listing2.best_bidder = you 
                 listing2.price = new_bid
+                listing2.save()
                 bid2 = Bid(value=new_bid, item=listing2, datetime=datetime2, user=you)
                 bid2.save()
             else:
@@ -104,12 +105,10 @@ def display(request, name):
             "bids": bids,
         })
 
-
 def categories(request):
     return render(request, "auctions/categories.html", {
         "categories": Category.objects.all()
     })    
-
 
 @login_required
 def watchlist(request):
@@ -118,7 +117,6 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "favlist": favlist
     })
-
 
 def login_view(request):
     if request.method == "POST":
@@ -157,7 +155,6 @@ def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("login"))
 
-
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -183,3 +180,18 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+@login_required
+def deactivate(request, name):
+    you = request.user
+    listing = Listing.objects.get(title=name)
+    if listing.owner == you:
+        listing.active = False
+        bids = listing.its_bids.all()
+        best_bid = max(bids, key=lambda bid:bid.value)
+        listing.best_bidder = best_bid.user
+        listing.save()
+        return display(request, name)
+    else:
+        return display(request, name)
+

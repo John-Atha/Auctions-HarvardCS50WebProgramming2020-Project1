@@ -4,17 +4,25 @@
 
 {% block body %}
 
-{% if moving and adding %}
-<div class="con-title-v1">
-    <div><h2 class="title2"> {{listing.title}} </h2></div>
-    <div><a class="title2 message1" style="font-size: 130%;" href="{% url 'watch' listing.title %}">Add it to watchlist</a></div>
-</div>
-{% elif moving and not adding %}
-<div class="con-title-v2">
-    <div><h2 class="title2"> {{listing.title}} </h2></div>
-    <div><a class="title2 message2" style="font-size: 130%;" href="{% url 'unwatch' listing.title %}">Remove it from watchlist</a></div>
-</div>
+{% if not listing.owner == request.user %}
+    {% if moving and adding %}
+    <div class="con-title-v1">
+        <div><h2 class="title2"> {{listing.title}} </h2></div>
+        <div><a class="title2 message1" style="font-size: 130%;" href="{% url 'watch' listing.title %}">Add it to watchlist</a></div>
+    </div>
+    {% elif moving and not adding %}
+    <div class="con-title-v2">
+        <div><h2 class="title2"> {{listing.title}} </h2></div>
+        <div><a class="title2 message2" style="font-size: 130%;" href="{% url 'unwatch' listing.title %}">Remove it from watchlist</a></div>
+    </div>
+    {% endif %}
+{% elif listing.active %}
+    <div class="con-title-v2">
+        <div><h2 class="title2"> {{listing.title}} </h2></div>
+        <div><a class="title2 message2" style="font-size: 130%;" href="{% url 'deactivate' listing.title %}">Deactivate the listing</a></div>
+    </div>
 {% endif %}
+
 
 <div class="mycolors container-display">
 
@@ -39,6 +47,16 @@
         <br>
         <h4>Owner</h4>
         {{listing.owner}}
+        <h4>Best bidder</h4>
+        {{listing.best_bidder}}
+        <br>
+        <br>
+        {% if listing.active %}
+            <h4 style="color:green;">The listing is active, go for it!</h4>
+        {% else %}
+            <h4>The listing was closed from the previous owner, new owner of the product is:</h4>
+            {{ listing.owner }}
+        {% endif %}
     </div>
 </div>
 

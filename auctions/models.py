@@ -21,6 +21,8 @@ class Listing(models.Model):
     photo = models.ImageField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sells")
     item_category = models.ForeignKey(Category, default=None, on_delete=models.CASCADE, related_name="its_category")
+    active = models.BooleanField(default="True")
+    best_bidder = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name="gets")
 
     def __str__(self):
         return f"{self.title}, {self.item_category}, {self.photo}"
@@ -42,6 +44,6 @@ class Bid(models.Model):
     item = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="its_bids") 
 
     def __str__(self):
-        return f"{self.user}, {self.datetime}, {self.item}" 
+        return f"{self.user}, {self.value}, {self.datetime}, {self.item}" 
 
  
