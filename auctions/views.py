@@ -26,10 +26,9 @@ def inactive(request):
         "listings": listings
     })
 
-
 def cat_display(request, title):
     category = Category.objects.get(name=title)
-    listings = Listing.objects.filter(item_category=category)
+    listings = Listing.objects.filter(item_category=category, active=True)
     return render(request, "auctions/cat_disp.html", {
         "category":category,
         "listings":listings

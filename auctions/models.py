@@ -13,7 +13,6 @@ class Category(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
