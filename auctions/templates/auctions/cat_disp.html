@@ -8,7 +8,7 @@
 <div class="container">
 {% for listing in listings %}
     <div class="card">
-        <img src="/static/auctions/{{listing.photo}}" class="card-img-top product_img">
+        <img src="/media/{{listing.photo}}" class="card-img-top product_img">
         <div class="card-body">
         <h5 class="card-title">{{ listing.title }}</h5>
         <p class="card-text">Best Bid: {{ listing.price }} $</p>

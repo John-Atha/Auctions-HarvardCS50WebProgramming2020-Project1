@@ -7,7 +7,7 @@
         <div class="container">
         {% for category in categories %}
             <div class="card">
-                <img src="/static/auctions/{{category.photo}}" class="card-img-top product_img" alt="...">
+                <img src="/media/{{category.photo}}" class="card-img-top product_img" alt="...">
                 <div class="card-body">
                 <h5 class="card-title">{{ category.name }}</h5>
                 <a href="{% url 'cat_display' category.name %}" class="btn btn-primary" style="background-color:#99CD4E; color:#F6F6E8; border:none">
